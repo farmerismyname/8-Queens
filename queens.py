@@ -18,16 +18,13 @@
 
 # Board
 import random
+from turtledemo.penrose import start
 
-board = [0,7,3,5,4,1,3,6]
-starting_board = board
 
-#loop
-cases = int(input("how many cases?\n"))
 def board_representation(board_p):
     new_board = []
     #visualize the board
-    for i in range(len(board)):
+    for i in range(len(board_p)):
         new_board.append(i, board_p[i])
     print(new_board)
 
@@ -48,7 +45,7 @@ def board_representation_farmer(board):
             if board[i] == j:
                 rows.append("Q")
             else:
-                rows.append(".")
+                rows.append("-")
 
         new_board.append(rows)
 
@@ -115,22 +112,16 @@ def next_best_move(board):
     return random_next_move
 
 
-# show the initial state of the board and the h cost
-#board_representation(board)
-print("h = " + str(find_h_cost(board)))
-print()
-
-action_sequence = []
 
 
 def queens_in_conflict(board):
     q_conflict = []
 
 
-    for col in range(0,7):
+    for col in range(0,8):
         row = board[col]
         og_col = col
-        for comp_col in range(0, 7):
+        for comp_col in range(0, 8):
             if (comp_col != og_col):
                 # check for row conflicts
                 if (row == board[comp_col]):
@@ -200,14 +191,68 @@ def min_conflicts_decision(board,column):
         return options[rand]
     else:
         print("no better options")
-        return og_board
+        return og_board #doesnt return og board
 
 
+
+
+#end of the functions
+
+
+#actaul start of pragram
+custom_board = [0,0,0,0,0,0,0,1]
+random_board = [random.randint(0,7),random.randint(0,7),random.randint(0,7),random.randint(0,7),random.randint(0,7),random.randint(0,7),random.randint(0,7),random.randint(0,7),]
+starting_board = custom_board
+print(starting_board)
+
+cases = int(input("how many cases?\n"))
+if cases == 1:
+    print("Hill-Climbing Algorith:\n")
+    print("this is the initial placeent of the queens\n")
+    print("it has " , find_h_cost(starting_board) ," conflicts.\n")
+    board_representation(starting_board)
+#recursion to find solution
+    random_restarts = 0
+    #print("A solution was found in " , moves , " moves\n")
+    #print("this required " ,random_restarts, " random restarts\n")
+    print("Solution:\n")
+    #board_representation(solved_board)
+
+    print("Min-Conflicts Algorithm\n")
+    print("this is the initial placeent of the queens\n")
+    print("it has " , find_h_cost(starting_board) ," conflicts.\n")
+    board_representation(starting_board)
+
+    #print("A solution was found in " , moves , " moves\n")
+    #print("this required " ,random_restarts, " random restarts\n")
+    print("Solution:\n")
+
+    #recursion and find solution
+    #board_representation(solved_board)
+
+
+
+
+
+#ryan testing
+# show the initial state of the board and the h cost
+#board_representation(board)
+print("h = " + str(find_h_cost(board)))
+print()
+
+action_sequence = []
+
+
+
+
+
+
+#farmer testing
 print(starting_board)
 print("queens in conflicts: " , queens_in_conflict(starting_board))
 chosen = pick_queen(starting_board)
-print("chosen queen:" , chosen )                                 #works
-print("conflicts for chosen queen: " , calc_conflicts(starting_board,chosen))  #works
+print("chosen queen:" , chosen)                                 #works
+print("conflicts for chosen queen: " , calc_conflicts(starting_board, chosen ))  #works
 
 #board_representation_farmer(starting_board)       #  doesnt work
 print("next move" , min_conflicts_decision(starting_board,chosen))
